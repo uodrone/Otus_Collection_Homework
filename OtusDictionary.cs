@@ -123,7 +123,7 @@ namespace Otus_Collection
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        /// <exception cref="KeyNotFoundException"></exception>
+        /// <exception cref="Exception"></exception>
         public string Get(int key)
         {
             for (int i = 0; i < ArrayLength; i++)
