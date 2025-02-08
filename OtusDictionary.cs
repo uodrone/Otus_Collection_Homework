@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Otus_Collection
 {
-    //наследуем от интерфейса с парой ключ(int):значение(string) для того, шоп итерировать по for и foreach
+    //наследуем от интерфейса с парой ключ(int):значение(string) для того, шоп итерировать по foreach
     public class OtusDictionary : IEnumerable<KeyValuePair<int, string>>
     {
         public int[] KeyArray;
@@ -93,7 +93,7 @@ namespace Otus_Collection
         }
 
         /// <summary>
-        /// Реализация интерфейса IEnumerable<KeyValuePair<int, string>>
+        /// Реализация интерфейса IEnumerable<KeyValuePair<int, string>> для foreach
         /// </summary>
         public IEnumerator<KeyValuePair<int, string>> GetEnumerator()
         {
