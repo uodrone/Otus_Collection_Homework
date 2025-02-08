@@ -13,14 +13,38 @@ namespace Otus_Collection
         public int[] KeyArray;
         public string[] ValueArray;
         int ArrayLength;
-        HashSet<int> HashTableKey = new HashSet<int>();
-        public int currentIndex = 0;
+        public int CurrentIndex;
+        private bool[] ArrayInitialized; // Массив для отслеживания инициализированных элементов
 
         public OtusDictionary(int arrlength)
         {
             ArrayLength = arrlength;
             KeyArray = new int[ArrayLength];
-            ValueArray = new string[ArrayLength];            
+            ValueArray = new string[ArrayLength];
+            ArrayInitialized = new bool[ArrayLength];
+            CurrentIndex = 0;
+        }
+        /// <summary>
+        /// Хэш-функция для поиска уникального элемента
+        /// </summary>
+        /// <param name="keys"></param>
+        /// <param name="values"></param>
+        /// <param name="key"></param>
+        /// <param name="capacity"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        private int HashFunction(int[] keyArray, string[] valueArray, int key, int arrayLength)
+        {
+            int index = key % arrayLength;
+            while (ArrayInitialized[index])
+            {
+                if (keyArray[index] == key)
+                {
+                    throw new ArgumentException("Элемент с таким ключом уже существует.");
+                }
+                index = (index + 1) % arrayLength;
+            }
+            return index;
         }
 
         /// <summary>
@@ -28,45 +52,89 @@ namespace Otus_Collection
         /// </summary>
         private void ResizeArrays()
         {
-            ArrayLength *= 2;
-            Array.Resize(ref KeyArray, ArrayLength);
-            Array.Resize(ref ValueArray, ArrayLength);
-        }
+            int newLength = ArrayLength * 2;
+            int[] newKeys = new int[newLength];
+            string[] newValues = new string[newLength];
+            bool[] newInitialized = new bool[newLength];
 
-        public string Add(int key, string value)
-        {
-            var SB = new StringBuilder();            
-
-            // Проверяем, уникален ли ключ
-            if (!string.IsNullOrEmpty(value) && HashTableKey.Add(key))
+            // Копируем существующие элементы в новый массив
+            for (int i = 0; i < ArrayLength; i++)
             {
-                // Если массив заполнен, увеличиваем его размер
-                if (currentIndex >= ArrayLength)
+                if (ArrayInitialized[i])
                 {
-                    ResizeArrays();
-                    //throw new OverflowException("Массив переполнен");
-                }
-
-                // Добавляем ключ и значение в массивы
-                KeyArray[currentIndex] = key;
-                ValueArray[currentIndex] = value;
-                currentIndex++;
-
-                // Выводим текущее состояние массивов
-                for (int i = 0; i < currentIndex; i++)
-                {
-                    SB.Append($"\n{KeyArray[i]}: {ValueArray[i]}");
+                    int newIndex = HashFunction(newKeys, newValues, KeyArray[i], newLength);
+                    newKeys[newIndex] = KeyArray[i];
+                    newValues[newIndex] = ValueArray[i];
                 }
             }
-            return SB.ToString();
+
+            KeyArray = newKeys;
+            ValueArray = newValues;
+            ArrayLength = newLength;
         }
 
-        public string Get(int key) {
-            int index = Array.IndexOf(KeyArray, key);
-            if (index == -1)
-                throw new Exception("Такого элемента нет");
+        /// <summary>
+        /// Добавляйка в словарь
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <exception cref="Exception"></exception>
+        public string Add(int key, string value)
+        {
+            var SB = new StringBuilder();
 
-            return ValueArray[index];
+            if (value == null)
+            {
+                throw new Exception($"Значение {key} в этом словаре не может быть null!11");
+            }
+
+            // Проверяем, есть ли уже такой ключ
+            for (int i = 0; i < ArrayLength; i++)
+            {
+                if (ArrayInitialized[i] && KeyArray[i] == key)
+                {
+                    throw new Exception("Такой ключ уже существует");
+                }
+            }
+
+            // Если массив заполнен, увеличиваем его размер
+            if (CurrentIndex >= ArrayLength)
+            {
+                ResizeArrays();
+            }
+
+            // Находим свободный индекс для вставки
+            int index = HashFunction(KeyArray, ValueArray, key, ArrayLength);
+            KeyArray[index] = key;
+            ValueArray[index] = value;
+            ArrayInitialized[index] = true;
+            CurrentIndex++;
+
+            // Выводим текущее состояние массивов
+            for (int i = 0; i < CurrentIndex; i++)
+            {
+                SB.Append($"\n{KeyArray[i]}: {ValueArray[i]}");
+            }
+
+            return SB.ToString();
+        }
+        /// <summary>
+        /// Забирайка из словаря
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        /// <exception cref="KeyNotFoundException"></exception>
+        public string Get(int key)
+        {
+            for (int i = 0; i < ArrayLength; i++)
+            {
+                if (ArrayInitialized[i] && KeyArray[i] == key)
+                {
+                    return ValueArray[i];
+                }
+            }
+
+            throw new Exception("Такого элемента нетъ");
         }
 
         /// <summary>
@@ -97,7 +165,7 @@ namespace Otus_Collection
         /// </summary>
         public IEnumerator<KeyValuePair<int, string>> GetEnumerator()
         {
-            for (int i = 0; i < currentIndex; i++)
+            for (int i = 0; i < CurrentIndex; i++)
             {
                 //используем yield для последовательного возвращения пары ключ-значение в итераторе
                 yield return new KeyValuePair<int, string>(KeyArray[i], ValueArray[i]);

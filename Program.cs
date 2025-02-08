@@ -13,12 +13,8 @@ namespace Otus_Collection
             {
                 Console.WriteLine(dictionary.Add(0, "Стул"));
                 Console.WriteLine(dictionary.Add(1, "Стол"));
-                Console.WriteLine(dictionary.Add(1, "Стол"));
-                Console.WriteLine(dictionary.Add(2, "Шкаф"));
                 Console.WriteLine(dictionary.Add(2, "Шкаф"));
                 Console.WriteLine(dictionary.Add(3, "Буфет"));
-                Console.WriteLine(dictionary.Add(3, null));
-                Console.WriteLine(dictionary.Add(4, null));
                 Console.WriteLine(dictionary.Add(4, "Сервиз"));
 
 
@@ -36,7 +32,7 @@ namespace Otus_Collection
                 Console.WriteLine(dictionary[4]);
 
                 Console.WriteLine("\nТестируем for");
-                for (var i = 0; i < dictionary.currentIndex; i++)
+                for (var i = 0; i < dictionary.CurrentIndex; i++)
                 {
                     var item = dictionary[i];
                     Console.WriteLine($"{dictionary.KeyArray[i]}: {dictionary.ValueArray[i]}");
