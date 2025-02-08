@@ -7,7 +7,7 @@ namespace Otus_Collection
     {
         static void Main(string[] args)
         {
-            var dictionary = new OtusDictionary(5);
+            var dictionary = new OtusDictionary(32);
 
             try
             {
