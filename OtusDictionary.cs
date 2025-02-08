@@ -36,6 +36,8 @@ namespace Otus_Collection
         private int HashFunction(int[] keyArray, string[] valueArray, int key, int arrayLength)
         {
             int index = key % arrayLength;
+            //Проверяем что значение в массиве инициализированных ключей допускает ввод, на случай если значение ключа 0,
+            //чтоб не конфликтовало с дефолтными нулями при задании массива ключей, а то чо вообще
             while (ArrayInitialized[index])
             {
                 if (keyArray[index] == key)
@@ -138,10 +140,11 @@ namespace Otus_Collection
         }
 
         /// <summary>
-        /// Индексатор для получения значения по ключу
+        /// Индексатор для получения значений по ключу
         /// </summary>
-        /// <param name="key">Ключ</param>
-        /// <returns>Значение, соответствующее ключу</returns>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public string this[int key]
         {
             get
