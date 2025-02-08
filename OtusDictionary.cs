@@ -27,10 +27,10 @@ namespace Otus_Collection
         /// <summary>
         /// Хэш-функция для поиска уникального элемента
         /// </summary>
-        /// <param name="keys"></param>
-        /// <param name="values"></param>
+        /// <param name="keyArray"></param>
+        /// <param name="valueArray"></param>
         /// <param name="key"></param>
-        /// <param name="capacity"></param>
+        /// <param name="arrayLength"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
         private int HashFunction(int[] keyArray, string[] valueArray, int key, int arrayLength)
