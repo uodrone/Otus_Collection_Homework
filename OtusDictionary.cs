@@ -92,17 +92,6 @@ namespace Otus_Collection
             }
         }
 
-
-        /// <summary>
-        /// Получение значения по индексу (для поддержки цикла for)
-        /// </summary>
-        public KeyValuePair<int, string> GetElementByIndex(int index)
-        {
-            if (index < 0 || index >= currentIndex)
-                throw new IndexOutOfRangeException("Такого индекса нетъ");
-            return new KeyValuePair<int, string>(KeyArray[index], ValueArray[index]);
-        }
-
         /// <summary>
         /// Реализация интерфейса IEnumerable<KeyValuePair<int, string>>
         /// </summary>

@@ -29,7 +29,7 @@ namespace Otus_Collection
                 Console.WriteLine("\nТестируем геттер в итераторе");
                 Console.WriteLine(dictionary[1]);
                 Console.WriteLine(dictionary[4]);
-                Console.WriteLine(dictionary[0]);
+                Console.WriteLine(dictionary[0]);                
 
                 Console.WriteLine("\nТестируем сеттер в итераторе");
                 dictionary[4] = "кросевый сервиз";
