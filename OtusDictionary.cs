@@ -35,7 +35,7 @@ namespace Otus_Collection
         /// <exception cref="ArgumentException"></exception>
         private int HashFunction(int[] keyArray, string[] valueArray, int key, int arrayLength)
         {
-            int index = key % arrayLength;
+            int index = key % arrayLength; //Тут вместо arrayLength можно запилить простое число nbgf 17 или 19, чтоб не делать связный список
             //Проверяем что значение в массиве инициализированных ключей допускает ввод, на случай если значение ключа 0,
             //чтоб не конфликтовало с дефолтными нулями при задании массива ключей, а то чо вообще
             while (ArrayInitialized[index])
@@ -44,7 +44,7 @@ namespace Otus_Collection
                 {
                     throw new ArgumentException("Элемент с таким ключом уже существует.");
                 }
-                index = (index + 1) % arrayLength;
+                index = (index + 1) % arrayLength; //тут тоже
             }
             return index;
         }
